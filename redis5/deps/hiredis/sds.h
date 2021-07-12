@@ -44,31 +44,48 @@ typedef char *sds;
 /* Note: sdshdr5 is never used, we just access the flags byte directly.
  * However is here to document the layout of type 5 SDS strings. */
 struct __attribute__ ((__packed__)) sdshdr5 {
+    // 低3位存储类型, 高5位存储长度
     unsigned char flags; /* 3 lsb of type, and 5 msb of string length */
-    char buf[];
+    char buf[];  // 柔性数组，存放实际内容
 };
 struct __attribute__ ((__packed__)) sdshdr8 {
+    // 已使用长度，用1字节存储
     uint8_t len; /* used */
+    // 总长度，用1字节存储
     uint8_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr16 {
+    // 已使用长度，用2字节存储
     uint16_t len; /* used */
+    // 总长度，用2字节存储
     uint16_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr32 {
+    // 已使用长度，用4字节存储
     uint32_t len; /* used */
+    // 总长度，用4字节存储
     uint32_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr64 {
+    // 已使用长度，用8字节存储
     uint64_t len; /* used */
+    // 总长度，用8字节存储
     uint64_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 
