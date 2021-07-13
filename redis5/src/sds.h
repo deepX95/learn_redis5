@@ -47,6 +47,7 @@ typedef char *sds;
 
 // flags占1个字节，其低3位（bit）表示type，高5位（bit）表示长度，能表示的长度区间为0～31（2^5 -1）
 struct __attribute__ ((__packed__)) sdshdr5 {
+    // 低3位存储类型, 高5位存储长度
     unsigned char flags; /* 3 lsb of type, and 5 msb of string length */
     // 柔性数组，存放实际内容
     char buf[];
@@ -58,7 +59,9 @@ struct __attribute__ ((__packed__)) sdshdr8 {
     uint8_t len; /* used */
     // 为buf分配的总长度，用1字节存储 表示buf中已分配字节数 不同于free
     uint8_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr16 {
@@ -66,7 +69,9 @@ struct __attribute__ ((__packed__)) sdshdr16 {
     uint16_t len; /* used */
     // 为buf分配的总长度，用2字节存储 表示buf中已分配字节数 不同于free
     uint16_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr32 {
@@ -74,7 +79,9 @@ struct __attribute__ ((__packed__)) sdshdr32 {
     uint32_t len; /* used */
     // 为buf分配的总长度，用4字节存储 不同于free
     uint32_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr64 {
@@ -82,7 +89,9 @@ struct __attribute__ ((__packed__)) sdshdr64 {
     uint64_t len; /* used */
     // 为buf分配的总长度，用8字节存储 不同于free
     uint64_t alloc; /* excluding the header and null terminator */
+    // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
+    // 柔性数组，存放实际内容
     char buf[];
 };
 
