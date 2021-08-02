@@ -743,8 +743,8 @@ int htNeedsResize(dict *dict) {
 /* If the percentage of used slots in the HT reaches HASHTABLE_MIN_FILL
  * we resize the hash table to save memory */
 void tryResizeHashTables(int dbid) {
-    if (htNeedsResize(server.db[dbid].dict))
-        dictResize(server.db[dbid].dict);
+    if (htNeedsResize(server.db[dbid].dict))  // 判断是否需要缩容：used/size<10%
+        dictResize(server.db[dbid].dict);  // 执行缩容操作
     if (htNeedsResize(server.db[dbid].expires))
         dictResize(server.db[dbid].expires);
 }
@@ -756,6 +756,7 @@ void tryResizeHashTables(int dbid) {
  *
  * The function returns 1 if some rehashing was performed, otherwise 0
  * is returned. */
+// 默认要求每次rehash最多只能执行1ms
 int incrementallyRehash(int dbid) {
     /* Keys dictionary */
     if (dictIsRehashing(server.db[dbid].dict)) {
@@ -776,7 +777,9 @@ int incrementallyRehash(int dbid) {
  * memory pages are copied). The goal of this function is to update the ability
  * for dict.c to resize the hash tables accordingly to the fact we have o not
  * running childs. */
+// 启用或禁用 rehash 扩容功能
 void updateDictResizePolicy(void) {
+    // 当前没有 RDB 子进程，并且也没有 AOF 子进程
     if (server.rdb_child_pid == -1 && server.aof_child_pid == -1)
         dictEnableResize();
     else
@@ -1270,6 +1273,7 @@ int serverCron(struct aeEventLoop *eventLoop, long long id, void *clientData) {
                         (long)pid);
                 }
             }
+            // 判断是否能执行rehash，当AOF重写等高压力操作时候不执行
             updateDictResizePolicy();
             closeChildInfoPipe();
         }

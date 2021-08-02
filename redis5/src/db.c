@@ -187,22 +187,22 @@ void dbAdd(redisDb *db, robj *key, robj *val) {
  *
  * The program is aborted if the key was not already present. */
 void dbOverwrite(redisDb *db, robj *key, robj *val) {
-    dictEntry *de = dictFind(db->dict,key->ptr);
+    dictEntry *de = dictFind(db->dict,key->ptr);  // 查找键存在与否，返回存在的节点
 
-    serverAssertWithInfo(NULL,key,de != NULL);
+    serverAssertWithInfo(NULL,key,de != NULL);  // 不存在则中断执行
     dictEntry auxentry = *de;
-    robj *old = dictGetVal(de);
+    robj *old = dictGetVal(de);  // 获取老节点的val字段值
     if (server.maxmemory_policy & MAXMEMORY_FLAG_LFU) {
         val->lru = old->lru;
     }
-    dictSetVal(db->dict, de, val);
+    dictSetVal(db->dict, de, val);  // 给节点设置新的值
 
     if (server.lazyfree_lazy_server_del) {
         freeObjAsync(old);
         dictSetVal(db->dict, &auxentry, NULL);
     }
 
-    dictFreeVal(db->dict, &auxentry);
+    dictFreeVal(db->dict, &auxentry);  // 释放节点中旧val内存
 }
 
 /* High level Set operation. This function can be used in order to set

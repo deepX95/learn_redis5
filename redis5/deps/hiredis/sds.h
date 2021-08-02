@@ -51,7 +51,7 @@ struct __attribute__ ((__packed__)) sdshdr5 {
 struct __attribute__ ((__packed__)) sdshdr8 {
     // 已使用长度，用1字节存储
     uint8_t len; /* used */
-    // 总长度，用1字节存储
+    // 总长度，用1字节存储  表示buf中已分配字节数，不同于free，记录的是为buf分配的总长度
     uint8_t alloc; /* excluding the header and null terminator */
     // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
@@ -61,7 +61,7 @@ struct __attribute__ ((__packed__)) sdshdr8 {
 struct __attribute__ ((__packed__)) sdshdr16 {
     // 已使用长度，用2字节存储
     uint16_t len; /* used */
-    // 总长度，用2字节存储
+    // 总长度，用2字节存储  表示buf中已分配字节数，不同于free，记录的是为buf分配的总长度
     uint16_t alloc; /* excluding the header and null terminator */
     // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
@@ -71,7 +71,7 @@ struct __attribute__ ((__packed__)) sdshdr16 {
 struct __attribute__ ((__packed__)) sdshdr32 {
     // 已使用长度，用4字节存储
     uint32_t len; /* used */
-    // 总长度，用4字节存储
+    // 总长度，用4字节存储  表示buf中已分配字节数，不同于free，记录的是为buf分配的总长度
     uint32_t alloc; /* excluding the header and null terminator */
     // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
@@ -81,7 +81,7 @@ struct __attribute__ ((__packed__)) sdshdr32 {
 struct __attribute__ ((__packed__)) sdshdr64 {
     // 已使用长度，用8字节存储
     uint64_t len; /* used */
-    // 总长度，用8字节存储
+    // 总长度，用8字节存储  表示buf中已分配字节数，不同于free，记录的是为buf分配的总长度
     uint64_t alloc; /* excluding the header and null terminator */
     // 低3位存储类型, 高5位预留
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
