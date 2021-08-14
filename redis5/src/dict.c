@@ -275,7 +275,7 @@ int dictRehashMilliseconds(dict *d, int ms) {
  * while it is actively used. */
 static void _dictRehashStep(dict *d) {
     // 给dictRehash传入的循环次数参数为1，表明每迁移完一个bucket ，就执行正常操作
-    if (d->iterators == 0) dictRehash(d,1);
+    if (d->iterators == 0) dictRehash(d,1);  // 字典正在运行迭代操作的安全迭代器个数
 }
 
 /* Add an element to the target hash table */
