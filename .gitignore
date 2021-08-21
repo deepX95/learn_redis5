@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 .idea/
+=======
+# General
+.DS_Store
+.idea/*
+>>>>>>> 2ebd3a37e16c0465f2f3027e9f0ef2cc3b8afc78
